@@ -5,29 +5,58 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  background-color: #F4F3EF;
+  background-color: #f5f5f0;
   font-family: 'DM Sans', sans-serif;
-  color: #1C1B19;
+  color: #111;
 }
 
-.nav-item { cursor: pointer; padding: 9px 14px; border-radius: 8px; font-size: 13.5px; font-weight: 500; color: #6B6A65; display: flex; align-items: center; gap: 9px; transition: all 0.15s; border: none; background: none; width: 100%; text-align: left; font-family: 'DM Sans', sans-serif; }
-.nav-item:hover { background: #ECEAE3; color: #1C1B19; }
-.nav-item.active { background: #1C1B19; color: #F4F3EF; }
+/* Sidebar Links */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  font-size: 12px;
+  color: #999;
+  text-decoration: none;
+  transition: all 0.15s;
+  border-left: 2px solid transparent;
+}
 
-.tab-btn { border: none; background: none; cursor: pointer; padding: 7px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; color: #888780; font-family: 'DM Sans', sans-serif; transition: all 0.15s; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
-.tab-btn:hover { color: #1C1B19; }
-.tab-btn.active { background: #1C1B19; color: #F4F3EF; }
+.sidebar-link .link-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-.tab-count { font-size: 11px; padding: 1px 6px; border-radius: 10px; background: rgba(0,0,0,0.08); }
-.tab-btn.active .tab-count { background: rgba(255,255,255,0.2); color: #F4F3EF; }
+.sidebar-link .active-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: all 0.15s;
+}
 
+.sidebar-link:hover {
+  color: #fff;
+  background-color: #1a1a1a;
+}
+
+.sidebar-link.active {
+  color: #fff;
+  background-color: #1a1a1a;
+  border-left-color: #fff;
+}
+
+.sidebar-link.active .active-dot {
+  background-color: #fff;
+}
+
+/* Utility */
 .tr-row { transition: background 0.1s; cursor: pointer; }
-.tr-row:hover td { background: #FAFAF8; }
+.tr-row:hover td { background: #fafaf8; }
 
-.icon-btn { background: #FFFFFF; border: 1px solid #E5E3DB; border-radius: 8px; width: 34px; height: 34px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
-.icon-btn:hover { background: #F4F3EF; }
-
-input:focus { outline: none; border-color: #1C1B19 !important; }
+input:focus { outline: none; border-color: #111 !important; }
 select:focus { outline: none; }
 
 ::-webkit-scrollbar { width: 4px; height: 4px; }
