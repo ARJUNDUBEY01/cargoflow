@@ -13,6 +13,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Health check
+app.get('/health', (req, res) => res.json({ status: 'Backend is Healthy' }));
+
 // Mount routers
 app.use('/api/auth', auth);
 app.use('/api/bookings', bookings);
