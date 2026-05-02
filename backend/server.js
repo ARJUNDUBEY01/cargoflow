@@ -16,12 +16,14 @@ app.use(express.json());
 app.use(cors());
 
 // Route files
-const bookings = require('./src/routes/bookings');
-const fleet = require('./src/routes/fleet');
-const alerts = require('./src/routes/alerts');
-const analytics = require('./src/routes/analytics');
+const auth = require('./src/routes/auth.routes');
+const bookings = require('./src/routes/booking.routes');
+const fleet = require('./src/routes/fleet.routes');
+const alerts = require('./src/routes/alert.routes');
+const analytics = require('./src/routes/analytics.routes');
 
 // Mount routers
+app.use('/api/auth', auth);
 app.use('/api/bookings', bookings);
 app.use('/api/fleet', fleet);
 app.use('/api/alerts', alerts);
