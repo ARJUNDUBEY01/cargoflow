@@ -11,12 +11,12 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Check active sessions and sets the user
     const getSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       const user = session?.user ?? null;
       if (user) {
         user.name = user.user_metadata?.full_name || user.email?.split('@')[0];
+        localStorage.setItem('token', session.access_token);
       }
       setUser(user);
       setLoading(false);
@@ -24,11 +24,13 @@ export const AuthProvider = ({ children }) => {
 
     getSession();
 
-    // Listen for changes on auth state (logged in, signed out, etc.)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       const user = session?.user ?? null;
       if (user) {
         user.name = user.user_metadata?.full_name || user.email?.split('@')[0];
+        localStorage.setItem('token', session.access_token);
+      } else {
+        localStorage.removeItem('token');
       }
       setUser(user);
     });
@@ -39,14 +41,12 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     setError(null);
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
       
-      setUser(data.user);
+      if (data.session) {
+        localStorage.setItem('token', data.session.access_token);
+      }
       return true;
     } catch (err) {
       setError(err.message || 'Login failed');
@@ -60,16 +60,13 @@ export const AuthProvider = ({ children }) => {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: {
-          data: {
-            full_name: name,
-          },
-        },
+        options: { data: { full_name: name } },
       });
-
       if (error) throw error;
       
-      setUser(data.user);
+      if (data.session) {
+        localStorage.setItem('token', data.session.access_token);
+      }
       return true;
     } catch (err) {
       setError(err.message || 'Signup failed');
@@ -79,6 +76,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     await supabase.auth.signOut();
+    localStorage.removeItem('token');
     setUser(null);
   };
 
